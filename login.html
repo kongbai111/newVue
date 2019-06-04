@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="assets/img/titleimg.ico" type="image/x-icon">
+	<title>login</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/login.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/default.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+</head>
+<body>
+	<div class='login'>
+		<div class='login_title'>
+			<span>登录你的账户</span>
+		</div>
+		<div class='login_fields'>
+			<div class='login_fields__user'>
+				<div class='icon'>
+					<img src='assets/img/user_icon_copy.png'>
+				</div>
+				<input name="user" placeholder='用户名' type='text'>
+				<div class='validation'>
+					<img src='assets/img/tick.png'>
+				</div>
+				</input>
+			</div>
+			<div class='login_fields__password'>
+				<div class='icon'>
+					<img src='assets/img/lock_icon_copy.png'>
+				</div>
+				<input name="pwd" placeholder='密码' type='password'>
+				<div class='validation'>
+					<img src='assets/img/tick.png'>
+				</div>
+			</div>
+			<div class="loginFail" style="display: none;font-size: 14px;color: rgb(220,97,128)">
+			  登录名和密码不能为空
+			</div>
+			<div class='login_fields__submit'>
+				<input type='submit' value='登录'>
+				<div class='forgot'>
+					<a href='#'>忘记密码?</a>
+				</div>
+			</div>
+		</div>
+		<div class='success'>
+			<h2>身份验证成功</h2>
+			<p>欢迎到来</p>
+		</div>
+		<div class='disclaimer'>
+			<p>Do you yearn for strength? <br/>So log in.<br/>Then you'll find that you don't have any eggs.</p>
+		</div>
+	</div>
+	<div class='authent'>
+		<img src='assets/img/puff.svg'>
+		<p>登录中...</p>
+	</div>
+	<script src='assets/js/stopExecutionOnTimeout.js?t=1'></script>
+	<script src="assets/js/jquery-2.1.1.min.js"></script>
+	<script src="assets/js/login.js"></script>
+	<script>
+	$('input[type="submit"]').click(function () {
+        let user = $('input[name="user"]').val();
+        let pwd = $('input[name="pwd"]').val();
+        if(user && pwd){
+            $('.login').addClass('test');
+            setTimeout(function () {
+                $('.login').addClass('testtwo');
+            }, 300);
+            setTimeout(function () {
+                $('.authent').show().animate({ right: -320 }, {
+                    easing: 'easeOutQuint',
+                    duration: 600,
+                    queue: false
+                });
+                $('.authent').animate({ opacity: 1 }, {
+                    duration: 200,
+                    queue: false
+                }).addClass('visible');
+            }, 500);
+            setTimeout(function () {
+                $('.authent').show().animate({ right: 90 }, {
+                    easing: 'easeOutQuint',
+                    duration: 600,
+                    queue: false
+                });
+                $('.authent').animate({ opacity: 0 }, {
+                    duration: 200,
+                    queue: false
+                }).addClass('visible');
+                $('.login').removeClass('testtwo');
+            }, 2500);
+            setTimeout(function () {
+                $('.login').removeClass('test');
+                $('.login div').fadeOut(123);
+            }, 2800);
+            if(user == 123 && pwd == 123){
+                let htm = '<h2>身份验证成功</h2><p>欢迎到来</p>'
+                $(".success").html(htm);
+                setTimeout(function () {
+                    $('.success').fadeIn();
+                }, 3200);
+                setTimeout(function () {
+                    window.location.href="views/index.html";
+                },4200)
+            }
+            else {
+                let htm = '<h2>身份验证失败</h2><p>请重新登录</p>'
+                $(".success").html(htm);
+                setTimeout(function () {
+                    $('.success').fadeIn();
+                }, 3200);
+            }
+		}
+	    else {
+	        $('.loginFail').css('display','block')
+		}
+	});
+	$('input[type="text"],input[type="password"]').focus(function () {
+	    $(this).prev().animate({ 'opacity': '1' }, 200);
+	});
+	$('input[type="text"],input[type="password"]').blur(function () {
+	    $(this).prev().animate({ 'opacity': '.5' }, 200);
+	});
+	$('input[type="text"],input[type="password"]').keyup(function () {
+        var reg = /^[1-9][0-9]*$/;
+        if (reg.test($(this).val())) {
+	        $(this).next().animate({
+	            'opacity': '1',
+	            'right': '30'
+        }, 200);
+	    } else {
+	        $(this).next().animate({
+	            'opacity': '0',
+	            'right': '20'
+	        }, 200);
+	    }
+	});
+	var open = 0;
+	$('.tab').click(function () {
+	    $(this).fadeOut(200, function () {
+	        $(this).parent().animate({ 'left': '0' });
+	    });
+	});
+	</script>
+</body>
+</html>
