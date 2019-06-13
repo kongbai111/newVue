@@ -5,7 +5,7 @@
           <el-col :span="12">
             <el-menu
               :style="hangt"
-              default-active="2"
+              default-active="1-1"
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose"
@@ -32,14 +32,6 @@
                 <i class="el-icon-menu"></i>
                 <span slot="title">账号管理</span>
               </el-menu-item>
-              <el-submenu index="3">
-                <template slot="title">
-                  <i class="el-icon-document"></i>
-                  <span slot="title">权限管理</span>
-                </template>
-                <el-menu-item index="3-1">新增权限</el-menu-item>
-                <el-menu-item index="3-3">分配权限</el-menu-item>
-              </el-submenu>
             </el-menu>
           </el-col>
         </el-row>

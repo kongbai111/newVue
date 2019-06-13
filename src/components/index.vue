@@ -9,15 +9,21 @@
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item index="1">
-        <router-link :to="{path:'/index/home'}">首页
+        <router-link :to="{path:'/index/home'}">
+          首页
         </router-link>
       </el-menu-item>
       <el-menu-item index="2">共享资料</el-menu-item>
       <el-menu-item index="3">消息中心</el-menu-item>
       <el-menu-item index="4">订单管理</el-menu-item>
-      <el-menu-item index="6" class="me">欢迎你</el-menu-item>
+      <el-menu-item index="5">
+          <router-link :to="{ path:'/index/power/getPower' }">
+            权限管理
+          </router-link>
+      </el-menu-item>
+      <el-menu-item index="7" class="me">欢迎你</el-menu-item>
       <router-link :to="{path:'/index/personalCenter/myCenter'}">
-        <el-menu-item index="5" class="me">
+        <el-menu-item index="6" class="me">
           <div class="topImg">
             <img :src="imageUrl"/>
           </div>
@@ -63,12 +69,30 @@ export default {
           this.imageUrl = this.$host + data.data.errData.img
         }
       })
+    },
+    selectPower () {
+      let params = {
+        username: ''
+      }
+      params.username = this.uid
+      this.$axios.get(this.$host + '/power', {params: params}).then(data => {
+        if (data.data.code === 1) {
+          this.$alert(data.errorMsg, '登录失败', {
+            confirmButtonText: '确定'
+          })
+        } else if (data.data.code === 0) {
+          this.imageUrl = this.$host + data.data.errData.img
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+  a{
+    text-decoration: none;
+  }
   .me{
     float: right;
     padding-left: 0;

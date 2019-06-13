@@ -12,6 +12,12 @@ import personalCenter from '@/components/personalCenter/personalCenter'
 import myCenter from '@/components/personalCenter/my'
 import updatePassword from '@/components/personalCenter/updatePassword'
 
+import power from '@/components/power/power'
+import getPower from '@/components/power/getPower'
+import distributionPower from '@/components/power/distributionPower'
+import userPower from '@/components/power/userPower'
+import powerLists from '@/components/power/powerLists'
+
 import home from '@/components/home/home'
 
 Vue.use(Router)
@@ -29,28 +35,60 @@ const routes = [
     path: '/index',
     name: 'index',
     component: index,
-    children: [{
-      path: '/index/personalCenter',
-      name: 'personalCenter',
-      component: personalCenter,
-      meta: { requireAuth: true },
-      children: [{
-        path: '/index/personalCenter/myCenter',
-        name: 'myCenter',
-        component: myCenter,
+    children: [
+      {
+        path: '/index/personalCenter',
+        name: 'personalCenter',
+        component: personalCenter,
+        meta: { requireAuth: true },
+        children: [
+          {
+            path: '/index/personalCenter/myCenter',
+            name: 'myCenter',
+            component: myCenter,
+            meta: { requireAuth: true }
+          }, {
+            path: '/index/personalCenter/updatePassword',
+            name: 'updatePassword',
+            component: updatePassword,
+            meta: { requireAuth: true }
+          }
+        ]
+      }, {
+        path: '/index/home',
+        name: 'home',
+        component: home,
         meta: { requireAuth: true }
       }, {
-        path: '/index/personalCenter/updatePassword',
-        name: 'updatePassword',
-        component: updatePassword,
-        meta: { requireAuth: true }
-      }]
-    }, {
-      path: '/index/home',
-      name: 'home',
-      component: home,
-      meta: { requireAuth: true }
-    }]
+        path: '/index/power',
+        name: 'power',
+        component: power,
+        meta: { requireAuth: true },
+        children: [
+          {
+            path: '/index/power/getPower',
+            name: 'getPower',
+            component: getPower,
+            meta: { requireAuth: true }
+          }, {
+            path: '/index/power/distributionPower',
+            name: 'distributionPower',
+            component: distributionPower,
+            meta: { requireAuth: true }
+          }, {
+            path: '/index/power/bindPower',
+            name: 'userPower',
+            component: userPower,
+            meta: { requireAuth: true }
+          }, {
+            path: '/index/power/powerLists',
+            name: 'powerLists',
+            component: powerLists,
+            meta: { requireAuth: true }
+          }
+        ]
+      }
+    ]
   }
 ]
 // // 备注：请注意路由中的 meta:{requireAuth: true }，这个配置，主要为下面的验证做服务。
