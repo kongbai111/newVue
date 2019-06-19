@@ -1,5 +1,5 @@
 <template>
-  <div class="distributionPower">
+  <div class="updatePower">
     <el-form ref="ruleForm" :rules="rules" :model="ruleForm" label-width="100px">
       <el-form-item label="权限职位名" prop="powerName">
         <el-input v-model="ruleForm.powerName"></el-input>
@@ -18,7 +18,11 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('ruleForm')">新增</el-button>
-        <el-button>取消</el-button>
+        <router-link :to="{ path: '/index/power/PowerLists' }">
+          <el-button>
+            取消
+          </el-button>
+        </router-link>
       </el-form-item>
     </el-form>
   </div>
@@ -26,7 +30,7 @@
 
 <script>
 export default {
-  name: 'distributionPower',
+  name: 'updatePower',
   data () {
     var oldPwone = (rule, value, callback) => {
       if (this.ruleForm.value === '') {
@@ -59,10 +63,11 @@ export default {
     let name = this.$cookie.get('name')
     this.uid = name
     this.seletPower()
+    this.seletPowerOne()
   },
   methods: {
-    seletPower () {
-      this.$axios.get(this.$host + '/powerRelation/select').then(data => {
+    async seletPower () {
+      await this.$axios.get(this.$host + '/powerRelation/select').then(data => {
         if (data.data.code === 1) {
           this.$alert(data.errorMsg, '登录失败', {
             confirmButtonText: '确定'
@@ -72,10 +77,25 @@ export default {
         }
       })
     },
+    async seletPowerOne () {
+      let params = {}
+      params.id = this.$route.query.id
+      await this.$axios.get(this.$host + '/powerRelation/selectPower', {params: params}).then(data => {
+        if (data.data.code === 1) {
+          this.$alert(data.errorMsg, '登录失败', {
+            confirmButtonText: '确定'
+          })
+        } else {
+          this.ruleForm.value = data.data.errData.items
+          this.ruleForm.powerName = data.data.errData.name
+          this.ruleForm.Number = data.data.errData.sort
+        }
+      })
+    },
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$confirm('此操作将新增权限职位, 是否继续?', '提示', {
+          this.$confirm('此操作将修改权限职位, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -87,10 +107,11 @@ export default {
               PRSort: 1
             }
             params.uid = this.uid
+            params.pwId = this.$route.query.id
             params.powerName = this.ruleForm.powerName
             params.powerRelationId = this.ruleForm.value
             params.PRSort = this.ruleForm.Number
-            this.$http.post(this.$host + '/powerRelation', params).then(data => {
+            this.$http.post(this.$host + '/powerRelation/update', params).then(data => {
               if (data.data.code === 1) {
                 this.$alert(data.data.errorMsg, '修改失败', {
                   confirmButtonText: '确定'
@@ -100,6 +121,7 @@ export default {
                   type: 'success',
                   message: data.data.errorMsg
                 })
+                this.$router.push({path: '/index/power/powerLists'})
                 this.ruleForm.powerName = ''
                 this.ruleForm.value = ''
                 this.ruleForm.Number = 1
@@ -122,7 +144,7 @@ export default {
 </script>
 
 <style scoped>
-  .distributionPower{
+  .updatePower{
     margin:100px 0 0 300px;
   }
 </style>

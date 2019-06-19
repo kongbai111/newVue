@@ -17,6 +17,8 @@ import getPower from '@/components/power/getPower'
 import distributionPower from '@/components/power/distributionPower'
 import userPower from '@/components/power/userPower'
 import powerLists from '@/components/power/powerLists'
+import updatePower from '@/components/power/updatePower'
+import userPowerList from '@/components/power/userPowerList'
 
 import home from '@/components/home/home'
 
@@ -84,6 +86,16 @@ const routes = [
             path: '/index/power/powerLists',
             name: 'powerLists',
             component: powerLists,
+            meta: { requireAuth: true }
+          }, {
+            path: '/index/power/updatePower',
+            name: 'updatePower',
+            component: updatePower,
+            meta: { requireAuth: true }
+          }, {
+            path: '/index/power/userPowerList',
+            name: 'userPowerList',
+            component: userPowerList,
             meta: { requireAuth: true }
           }
         ]

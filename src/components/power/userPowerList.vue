@@ -1,5 +1,5 @@
 <template>
-  <div class="powerLists">
+  <div class="userPowerList">
     <el-table
       :data="tableData"
       border
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: 'getPower',
+  name: 'userPowerList',
   data () {
     return {
       tableData: []
@@ -51,13 +51,12 @@ export default {
   },
   methods: {
     handleClick (row) {
-      console.log(row)
       this.$router.push({ path: '/index/power/updatePower', query: { id: row.id } })
     },
     selectable () {
-      this.$axios.get(this.$host + '/powerRelation/selectPowerRList').then(data => {
+      this.$axios.get(this.$host + '/powerRelation/selectUserPowerList').then(data => {
         if (data.data.code === 1) {
-          this.$alert(data.errorMsg, '登录失败', {
+          this.$alert(data.errorMsg, '登录失败s', {
             confirmButtonText: '确定'
           })
         } else {
